@@ -67,7 +67,7 @@ function gate($what,$who){
         case "python":
             return runer("python",$what);
         case "normal":
-            return normal_run($what)
+            return normal_run($what);
         default:
             set_lang($who,"normal");
             return normal_run($what)
