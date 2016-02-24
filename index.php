@@ -46,7 +46,7 @@ class wechatCallbackapiTest
                 $contentStr = $postObj->Content;
                 $keyword = trim($contentStr);
                 if(!empty( $keyword )){
-                    $contentStr = gate($contentStr,$fromUsername);
+                    $contentStr = trim(gate($contentStr,$fromUsername));
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 }else{
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, "Input something...");
