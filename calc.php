@@ -1,5 +1,6 @@
 <?php
 function gate($what,$who){
+    return run_php($what);
     $con = mysql_connect("localhost","root","");
     mysql_select_db("mysql", $con);
     $result = mysql_query('SELECT lang FROM lang WHERE name="$who"');
