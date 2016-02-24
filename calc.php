@@ -45,6 +45,9 @@ function get_lang($name){
 } 
 
 function gate($what,$who){
+    if($what=="mode"){
+        return get_lang($who);
+    }
     if($what=="python"){
         set_lang($who, "python");
         return "python mode";
