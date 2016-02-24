@@ -45,20 +45,20 @@ function get_lang($name){
 } 
 
 function gate($what,$who){
-    if($what=="mode"){
-        return get_lang($who);
-    }
-    if($what=="python"){
-        set_lang($who, "python");
-        return "python mode";
-    }
-    if($what=="php"){
-        set_lang($who, "php");
-        return "php mode";
-    }
-    if($what=="normal"){
-        set_lang($who, "normal");
-        return "normal mode";
+    switch($what){
+        case "mode":
+            return get_lang($who);
+        case "python":
+            set_lang($who, "python");
+            return "python mode";
+        case "php":
+            set_lang($who, "php");
+            return "php mode";
+        case "normal":
+        case "exit":
+        case "quit":
+            set_lang($who, "normal");
+            return "normal mode";
     }
     $lang = get_lang($who);
     switch($lang){
