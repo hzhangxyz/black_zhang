@@ -56,7 +56,7 @@ function gate($what,$who){
         case "php":
             set_lang($who, "php");
             return "php mode";
-        case "shell":
+        case "bash":
             set_lang($who, "bash");
             return "bash mode";
         case "normal":
