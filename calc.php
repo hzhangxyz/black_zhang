@@ -74,9 +74,9 @@ function gate($what,$who){
     }
 }
 
-function normal_run($what){
+function normal_run($ans){
     try{
-        eval('$ans='.$what.';');
+        eval('$ans='.$ans.';');
     }catch(Exception $e){}
     return $ans;
 }
