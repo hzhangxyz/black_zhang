@@ -1,4 +1,20 @@
 <?php
+function runer($cmd,$script){
+    $descriptorspec = array(
+        0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
+        1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
+        2 => array("file", "/tmp/error-output.txt", "a") // stderr is a file to write to
+    );
+    $cwd = '/tmp';
+    $env = array('some_option' => 'aeiou');
+    $process = proc_open($cmd, $descriptorspec, $pipes, $cwd, $env);
+    fwrite($pipes[0], $script);
+    fclose($pipes[0]);
+    $ans=stream_get_contents($pipes[1]);
+    fclose($pipes[1]);
+    return $ans;
+}
+
 function gate($what,$who){
     $con = mysql_connect("localhost","root","");
     mysql_select_db("mysql", $con);
@@ -9,7 +25,7 @@ function gate($what,$who){
                 $ans = run_php($what);
                 break;
             case "python":
-                $ans = $ans;
+                $ans = runer("python",$what);
                 break;
             default:
                 mysql_query('UPDATE lang SET lang="php" WHERE name="'.$who.'"');
