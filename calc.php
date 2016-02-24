@@ -59,12 +59,12 @@ function gate($what,$who){
     $lang = get_lang($who);
     switch($lang){
         case "php":
-            return runer("php -a",$what);
+            return runer("php","<?php \n".$what."\n?>");
         case "python":
             return runer("python",$what);
         default:
             set_lang($who,"php");
-            return runer("php -a",$what);
+            return runer("php","<?php \n".$what."\n?>");
     }
 }
 
