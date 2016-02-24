@@ -37,7 +37,7 @@ function get_lang($name){
         $ans = $row["lang"];
     }
     else{
-        $ans = "php";
+        $ans = "normal";
         mysql_query('INSERT INTO lang (name, lang) VALUES ("'.$name.'", "'.$ans.'")');
     }
     mysql_close($con);
@@ -56,28 +56,29 @@ function gate($what,$who){
         set_lang($who, "php");
         return "php mode";
     }
+    if($what=="normal"){
+        set_lang($who, "normal");
+        return "normal mode";
+    }
     $lang = get_lang($who);
     switch($lang){
         case "php":
             return runer("php","<?php \n".$what."\n?>");
         case "python":
             return runer("python",$what);
+        case "normal":
+            return normal_run($what)
+    }
         default:
-            set_lang($who,"php");
-            return runer("php","<?php \n".$what."\n?>");
+            set_lang($who,"normal");
+            return normal_run($what)
     }
 }
 
-function run_php($what){
-    $ans = $what;
+function normal_run($what){
     try{
-        eval($ans);
-    }
-    catch(Exception $e){}
-    try{
-        eval('$ans='.$ans.';');
-    }
-    catch(Exception $e){}
+        eval('$ans='.$what.';');
+    }catch(Exception $e){}
     return $ans;
 }
 
