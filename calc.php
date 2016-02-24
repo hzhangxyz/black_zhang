@@ -22,14 +22,14 @@ function gate($what,$who){
     if($row = mysql_fetch_array($result)){
         switch($row["lang"]){
             case "php":
-                $ans = run_php($what);
+                $ans = runer("php -a",$what);
                 break;
             case "python":
                 $ans = runer("python",$what);
                 break;
             default:
                 mysql_query('UPDATE lang SET lang="php" WHERE name="'.$who.'"');
-                $ans = run_php($what);
+                $ans = runer("php -a",$what);
         }
     }else{
         mysql_query('INSERT INTO lang (name, lang) VALUES ("'.$who.'", "php")');
