@@ -13,7 +13,7 @@ function gate($what,$who){
                 $ans = $ans;
                 break;
             default:
-                mysql_query("UPDATE lang SET lang="php" WHERE name="$who"');
+                mysql_query('UPDATE lang SET lang="php" WHERE name="$who"');
                 $ans = run_php($what);
         }
     }else{
