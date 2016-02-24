@@ -70,7 +70,7 @@ function gate($what,$who){
             return normal_run($what);
         default:
             set_lang($who,"normal");
-            return normal_run($what)
+            return normal_run($what);
     }
 }
 
