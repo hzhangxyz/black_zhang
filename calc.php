@@ -47,7 +47,7 @@ function get_lang($name){
 function gate($what,$who){
     switch($what){
         case "help":
-            return "try: help, mode, normal, python, php";
+            return "try: help, mode, normal, python, php, bash";
         case "mode":
             return get_lang($who);
         case "python":
@@ -56,6 +56,9 @@ function gate($what,$who){
         case "php":
             set_lang($who, "php");
             return "php mode";
+        case "shell":
+            set_lang($who, "bash");
+            return "bash mode"
         case "normal":
         case "exit":
         case "quit":
@@ -70,6 +73,8 @@ function gate($what,$who){
             return runer("python",$what);
         case "normal":
             return normal_run($what);
+        case "bash":
+            return runer("bash",$what);
         default:
             set_lang($who,"normal");
             return normal_run($what);
