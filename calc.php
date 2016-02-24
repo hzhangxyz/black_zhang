@@ -58,7 +58,7 @@ function gate($what,$who){
             return "php mode";
         case "shell":
             set_lang($who, "bash");
-            return "bash mode"
+            return "bash mode";
         case "normal":
         case "exit":
         case "quit":
