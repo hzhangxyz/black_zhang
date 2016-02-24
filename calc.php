@@ -15,28 +15,54 @@ function runer($cmd,$script){
     return $ans;
 }
 
-function gate($what,$who){
+function set_lang($name,$lang){
     $con = mysql_connect("localhost","root","");
     mysql_select_db("mysql", $con);
-    $result = mysql_query('SELECT lang FROM lang WHERE name="'.$who.'"');
+    $result = mysql_query('SELECT lang FROM lang WHERE name="'.$name.'"');
     if($row = mysql_fetch_array($result)){
-        switch($row["lang"]){
-            case "php":
-                $ans = runer("php -a",$what);
-                break;
-            case "python":
-                $ans = runer("python",$what);
-                break;
-            default:
-                mysql_query('UPDATE lang SET lang="php" WHERE name="'.$who.'"');
-                $ans = runer("php -a",$what);
-        }
-    }else{
-        mysql_query('INSERT INTO lang (name, lang) VALUES ("'.$who.'", "php")');
-        $ans = run_php($what);
+        mysql_query('UPDATE lang SET lang="'.$lang.'" WHERE name="'.$name.'"');
+    }
+    else{
+        mysql_query('INSERT INTO lang (name, lang) VALUES ("'.$name.'", "'.$lang.'")');
+    }
+    mysql_close($con);
+    return 0;
+}
+
+function get_lang($name){
+    $con = mysql_connect("localhost","root","");
+    mysql_select_db("mysql", $con);
+    $result = mysql_query('SELECT lang FROM lang WHERE name="'.$name.'"');
+    if($row = mysql_fetch_array($result)){
+        $ans = $row["lang"];
+    }
+    else{
+        $ans = "php";
+        mysql_query('INSERT INTO lang (name, lang) VALUES ("'.$name.'", "'.$ans.'")');
     }
     mysql_close($con);
     return $ans;
+} 
+
+function gate($what,$who){
+    if($what=="python"){
+        set_lang($who, "python");
+        return "python mode";
+    }
+    if($what=="php"){
+        set_lang($who, "php");
+        return "php mode";
+    }
+    $lang = get_lang($who);
+    switch($lang){
+        case "php":
+            return runer("php -a",$what);
+        case "python":
+            return runer("python",$what);
+        default:
+            set_lang($who,"php");
+            return runer("php -a",$what);
+    }
 }
 
 function run_php($what){
