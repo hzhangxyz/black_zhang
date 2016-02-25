@@ -48,7 +48,6 @@ class wechatCallbackapiTest
                 if(!empty( $keyword )){
                     $contentStr = trim(gate($contentStr,$fromUsername));
                     if($contentStr=="")$contentStr="No Response";
-                    $contentStr = str_replace(']]>','test',$contentStr);
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 }else{
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, "Input something...");
