@@ -79,6 +79,8 @@ function gate($what,$who){
             return normal_run($what);
         case "bash":
             return runer("bash",$what);
+        case "c":
+            return runer("sh gcc.sh",$what);
         default:
             set_lang($who,"normal");
             return normal_run($what);
