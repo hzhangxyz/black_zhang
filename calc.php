@@ -12,6 +12,7 @@ function runer($cmd,$script){
     fclose($pipes[0]);
     $ans=stream_get_contents($pipes[1]);
     fclose($pipes[1]);
+    proc_close($process);
     return $ans;
 }
 
