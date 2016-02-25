@@ -5,9 +5,7 @@ function runer($cmd,$script){
         1 => array("pipe", "w"),  // stdout is a pipe that the child will write to
         2 => array("file", "/dev/null", "a") // stderr is a file to write to
     );
-    $cwd = '/';
-    $env = array('some_option' => 'aeiou');
-    $process = proc_open($cmd, $descriptorspec, $pipes, $cwd, $env);
+    $process = proc_open($cmd, $descriptorspec, $pipes);
     fwrite($pipes[0], $script);
     fclose($pipes[0]);
     $ans=stream_get_contents($pipes[1]);
