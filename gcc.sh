@@ -1,5 +1,5 @@
 scr=/tmp/`date "+%N"`.c
 exe=/tmp/`date "+%N"`.out
-cat >$src
+cat >$scr
 gcc $scr -o $exe
 $exe
