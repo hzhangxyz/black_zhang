@@ -1,3 +1,4 @@
+#!/bin/sh
 scr=/tmp/`date "+%N"`.c
 exe=/tmp/`date "+%N"`.out
 cat >$scr
