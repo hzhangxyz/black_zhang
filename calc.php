@@ -16,6 +16,28 @@ function runer($cmd,$script){
     return $ans;
 }
 
+function cache_on($name){
+    set($name,array("if_cache"=>"Y","cache"=>""));
+    return 0;
+}
+
+function cache_off($name){
+    set($name,array("if_cache"=>"N","cache"=>""));
+    return 0;
+}
+
+function get_cache($name){
+    $ans = get($name)["cache"];
+    set($name,array("cache"=>""));
+    return 0;
+}
+
+function append_cache($name,$scr){
+    $ans = get($name)["cache"]."\n".$scr;
+    set($name,array("cache"=>$ans));
+    return 0;
+}
+
 function set_lang($name,$lang){
     set($name,array("lang"=>$lang));
     return 0;
@@ -25,8 +47,16 @@ function get_lang($name){
     return get($name)["lang"];
 } 
 
+)
+
 function gate($what,$who){
     switch($what){
+        case "cache on":
+            cache_on($name);
+            return "cache on";
+        case "cache off":
+            cache_off($name);
+            return "cache off";
         case "help":
             return "try: help, mode, normal, python, php, bash, c";
         case "mode":
@@ -48,7 +78,13 @@ function gate($what,$who){
         case "quit":
             set_lang($who, "normal");
             return "normal mode";
+        case "run":
+            return run_it($who,get_cache($who));
     }
+    run_it($who,$what);
+}
+
+function run_it($who,$what){
     $lang = get_lang($who);
     switch($lang){
         case "php":
