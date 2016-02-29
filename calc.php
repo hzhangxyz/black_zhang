@@ -50,7 +50,7 @@ function get_lang($name){
 function gate($what,$who){
     switch($what){
         case "cache":
-            return get($who)["cache"];
+            return get($who)["if_cache"];
         case "cache on":
             cache_on($who);
             return "cache on";
