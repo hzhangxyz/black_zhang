@@ -29,7 +29,7 @@ function cache_off($name){
 function get_cache($name){
     $ans = get($name)["cache"];
     set($name,array("cache"=>""));
-    return 0;
+    return $ans;
 }
 
 function append_cache($name,$scr){
@@ -47,15 +47,13 @@ function get_lang($name){
     return get($name)["lang"];
 } 
 
-)
-
 function gate($what,$who){
     switch($what){
         case "cache on":
-            cache_on($name);
+            cache_on($who);
             return "cache on";
         case "cache off":
-            cache_off($name);
+            cache_off($who);
             return "cache off";
         case "help":
             return "try: help, mode, normal, python, php, bash, c";
@@ -81,7 +79,11 @@ function gate($what,$who){
         case "run":
             return run_it($who,get_cache($who));
     }
-    run_it($who,$what);
+    if(get($who)["if_cache"]=="Y"){
+        append_cache($who,$what);
+        return "";
+    }
+    else return run_it($who,$what);
 }
 
 function run_it($who,$what){

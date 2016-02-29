@@ -7,9 +7,9 @@ function set($name, $arr){
     if(!(mysql_fetch_array($result))){
         mysql_query('INSERT INTO lang (name, lang, if_cache, cache) VALUE ("'.$name.'", "normal", "N","")');
     }
-    if($arr["lang"])mysql_query('UPDATE lang SET lang="'.$arr["lang"].'" WHERE name="'.$name.'"');
-    if($arr["if_cache"])mysql_query('UPDATE lang SET if_cache="'.$arr["if_cache"].'" WHERE name="'.$name.'"');
-    if($arr["cache"])mysql_query('UPDATE lang SET cache="'.$arr["cache"].'" WHERE name="'.$name.'"');
+    if(array_key_exists("lang",$arr))mysql_query('UPDATE lang SET lang="'.$arr["lang"].'" WHERE name="'.$name.'"');
+    if(array_key_exists("if_cache",$arr))mysql_query('UPDATE lang SET if_cache="'.$arr["if_cache"].'" WHERE name="'.$name.'"');
+    if(array_key_exists("cache",$arr))mysql_query('UPDATE lang SET cache="'.$arr["cache"].'" WHERE name="'.$name.'"');
     mysql_close($con);
     return 0;
 }
