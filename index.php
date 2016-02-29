@@ -8,7 +8,7 @@ $wechatObj = new wechatCallbackapiTest();
 delete the // before $wechatObj->valid(); and add // before $wechatObj->responseMsg(); when you are setting the url
 and then restore
 */
-$wechatObj->valid();
+//$wechatObj->valid();
 $wechatObj->responseMsg();
 
 class wechatCallbackapiTest
@@ -25,7 +25,7 @@ class wechatCallbackapiTest
     public function responseMsg()
     {
         $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
-
+        $resultStr = "";
         if (!empty($postStr)){
             libxml_disable_entity_loader(true);
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
