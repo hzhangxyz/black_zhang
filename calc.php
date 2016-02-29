@@ -39,7 +39,7 @@ function append_cache($name,$scr){
 }
 
 function set_lang($name,$lang){
-    set($name,array("lang"=>$lang,"cache"=>""));
+    set($name,array("lang"=>$lang,"if_cache"=>"N","cache"=>""));
     return 0;
 }
 
