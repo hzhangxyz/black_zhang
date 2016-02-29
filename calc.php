@@ -1,5 +1,5 @@
 <?php
-require_once("sql.php")
+require_once("sql.php");
 
 function runer($cmd,$script){
     $descriptorspec = array(
