@@ -19,6 +19,7 @@ function get($name){
     $result = mysql_query('SELECT * FROM lang WHERE name="'.$name.'"');
     if($row = mysql_fetch_array($result)){
         $ans = $row;
+    }
     else{
         mysql_query('INSERT INTO lang (name, lang, if_cache, cache) VALUE ("'.$name.'", "normal", "N","")');
         $ans = array("name"=>$name, "lang"=>"normal", "if_cache"=>"N", "cache"=>"");
