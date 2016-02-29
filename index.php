@@ -47,8 +47,8 @@ class wechatCallbackapiTest
                 $keyword = trim($contentStr);
                 if(!empty( $keyword )){
                     $contentStr = trim(gate($contentStr,$fromUsername));
-                    if($contentStr=="") $resulrStr="success";
-                    else $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                    if($contentStr=="")$contentStr="No Response";
+                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 }else{
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, "Input something...");
                 }
