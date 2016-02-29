@@ -8,7 +8,7 @@ delete the // before $wechatObj->valid(); and add // before $wechatObj->response
 and then restore
 */
 //valid();
-responseMsg();
+if(checkSignature())responseMsg();
 
 function valid(){
     $echoStr = $_GET["echostr"];
