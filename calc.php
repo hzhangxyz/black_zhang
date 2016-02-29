@@ -1,4 +1,6 @@
 <?php
+require_once("sql.php")
+
 function runer($cmd,$script){
     $descriptorspec = array(
         0 => array("pipe", "r"),  // stdin is a pipe that the child will read from
@@ -15,32 +17,12 @@ function runer($cmd,$script){
 }
 
 function set_lang($name,$lang){
-    $con = mysql_connect("localhost","root","");
-    mysql_select_db("mysql", $con);
-    $result = mysql_query('SELECT lang FROM lang WHERE name="'.$name.'"');
-    if($row = mysql_fetch_array($result)){
-        mysql_query('UPDATE lang SET lang="'.$lang.'" WHERE name="'.$name.'"');
-    }
-    else{
-        mysql_query('INSERT INTO lang (name, lang) VALUES ("'.$name.'", "'.$lang.'")');
-    }
-    mysql_close($con);
+    set($name,array("lang"=>$lang));
     return 0;
 }
 
 function get_lang($name){
-    $con = mysql_connect("localhost","root","");
-    mysql_select_db("mysql", $con);
-    $result = mysql_query('SELECT lang FROM lang WHERE name="'.$name.'"');
-    if($row = mysql_fetch_array($result)){
-        $ans = $row["lang"];
-    }
-    else{
-        $ans = "normal";
-        mysql_query('INSERT INTO lang (name, lang) VALUES ("'.$name.'", "'.$ans.'")');
-    }
-    mysql_close($con);
-    return $ans;
+    return get($name)["lang"];
 } 
 
 function gate($what,$who){
