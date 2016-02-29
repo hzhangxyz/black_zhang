@@ -3,7 +3,6 @@ require("calc.php");
 
 /*define your own token*/
 define("TOKEN", "1415926535897932384626");
-$wechatObj = new wechatCallbackapiTest();
 /*
 delete the // before $wechatObj->valid(); and add // before $wechatObj->responseMsg(); when you are setting the url
 and then restore
@@ -21,13 +20,13 @@ function valid(){
 
 function response_text($postObj,$text){
     $textTpl = "<xml>
-            <ToUserName><![CDATA[%s]]></ToUserName>
-            <FromUserName><![CDATA[%s]]></FromUserName>
-            <CreateTime>%s</CreateTime>
-            <MsgType><![CDATA[%s]]></MsgType>
-            <Content><![CDATA[%s]]></Content>
-            <FuncFlag>0</FuncFlag>
-            </xml>";
+<ToUserName><![CDATA[%s]]></ToUserName>
+<FromUserName><![CDATA[%s]]></FromUserName>
+<CreateTime>%s</CreateTime>
+<MsgType><![CDATA[%s]]></MsgType>
+<Content><![CDATA[%s]]></Content>
+<FuncFlag>0</FuncFlag>
+</xml>";
     return sprintf($textTpl,$postObj->FromUserName,$postObj->ToUserName,time(),"text",$text);
 }
 
@@ -46,7 +45,8 @@ function response_news($postObj,$title,$description,$img,$url){
 <Url><![CDATA[%s]]></Url>
 </item>
 </Articles>
-</xml> "
+</xml> ";
+    return sprintf($newsTpl,$postObj->FromUserName,$postObj->ToUserName,time(),"news",$title,$description,$img,$url);
 }
 
 function responseMsg(){
@@ -55,35 +55,21 @@ function responseMsg(){
     if (!empty($postStr)){
         libxml_disable_entity_loader(true);
         $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-        $fromUsername = $postObj->FromUserName;
-        $toUsername = $postObj->ToUserName;
+        $who = $postObj->FromUserName;
         $type = $postObj->MsgType;
-        if($type == "text"){
-            $contentStr = $postObj->Content;
-            $contentStr = trim(gate($contentStr,$fromUsername));
-            if($contentStr=="") echo "";
-            else echo response_text($postObj,$contentStr);
-        }else{
-            echo response_text($postObj,"Only Text Available");
+        switch($type){
+            case "text":
+                $what = $postObj->Content;
+                $ans = trim(gate($what,$who));
+                if($ans=="") echo "";
+                else echo response_text($postObj,$ans);
+                break;
+            default:
+                echo response_text($postObj,"Only Text Available");
         }
     }else{
-        echo ""
+        echo "";
     }
-    /*echo "<xml>
-<ToUserName><![CDATA[".$fromUsername."]]></ToUserName>
-<FromUserName><![CDATA[".$toUsername."]]></FromUserName>
-<CreateTime>".$time."</CreateTime>
-<MsgType><![CDATA[news]]></MsgType>
-<ArticleCount>1</ArticleCount>
-<Articles>
-<item>
-<Title><![CDATA[Test]]></Title>
-<Description><![CDATA[it is just a little test]]></Description>
-<PicUrl><![CDATA[http://test-2-zh19970205.hz.tenxapp.com/logo.png]]></PicUrl>
-<Url><![CDATA[http://test-2-zh19970205.hz.tenxapp.com/source/test.html]]></Url>
-</item>
-</Articles>
-</xml> ";*/
 }
 
 function checkSignature(){
