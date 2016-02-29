@@ -39,7 +39,7 @@ function append_cache($name,$scr){
 }
 
 function set_lang($name,$lang){
-    set($name,array("lang"=>$lang));
+    set($name,array("lang"=>$lang,"cache"=>""));
     return 0;
 }
 
@@ -49,6 +49,8 @@ function get_lang($name){
 
 function gate($what,$who){
     switch($what){
+        case "cache":
+            return get($who)["cache"];
         case "cache on":
             cache_on($who);
             return "cache on";
@@ -56,7 +58,7 @@ function gate($what,$who){
             cache_off($who);
             return "cache off";
         case "help":
-            return "try: help, mode, normal, python, php, bash, c";
+            return "try: help, mode, normal, python, php, bash, c, cache, cache on, cache off, run";
         case "mode":
             return get_lang($who);
         case "python":
@@ -78,12 +80,13 @@ function gate($what,$who){
             return "normal mode";
         case "run":
             return run_it($who,get_cache($who));
+        default:
+            if(get($who)["if_cache"]=="Y"){
+                append_cache($who,$what);
+                return "";
+            }
+            else return run_it($who,$what);
     }
-    if(get($who)["if_cache"]=="Y"){
-        append_cache($who,$what);
-        return "";
-    }
-    else return run_it($who,$what);
 }
 
 function run_it($who,$what){
