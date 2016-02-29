@@ -8,7 +8,7 @@ $wechatObj = new wechatCallbackapiTest();
 delete the // before $wechatObj->valid(); and add // before $wechatObj->responseMsg(); when you are setting the url
 and then restore
 */
-//$wechatObj->valid();
+$wechatObj->valid();
 $wechatObj->responseMsg();
 
 class wechatCallbackapiTest
@@ -47,19 +47,18 @@ class wechatCallbackapiTest
                 $keyword = trim($contentStr);
                 if(!empty( $keyword )){
                     $contentStr = trim(gate($contentStr,$fromUsername));
-                    if($contentStr=="")$contentStr="No Response";
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
+                    if($contentStr=="") $resultStr="";
+                    else $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
                 }else{
                     $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, "Input something...");
                 }
             }else{
                 $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, "Only Text Available");
             }
-            echo $resultStr;
         }else{
-            echo "";
-            exit;
+            $resultStr = "";
         }
+        echo $resultStr;
     }
 
     private function checkSignature()
