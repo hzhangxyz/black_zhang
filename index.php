@@ -4,10 +4,17 @@ require("calc.php");
 /*define your own token*/
 define("TOKEN", "1415926535897932384626");
 
+checkSQL();
 responseMsg();
 
-function valid()
-{
+function checkSQL(){
+    $con = mysql_connect("localhost","root","");
+    mysql_select_db("mysql",$con);
+    mysql_query("CREATE TABLE IF NOT EXISTS lang(name CHAR(32), lang CHAR(32), if_cache CHAR(4), cache CHAR(255))",$con);
+    mysql_close($con);
+    return 0;
+}
+function valid(){
     $echoStr = $_GET["echostr"];
     if (!defined("TOKEN")) {
         throw new Exception('TOKEN is not defined!');
@@ -27,8 +34,7 @@ function valid()
     }
 }
 
-function responseMsg()
-{
+function responseMsg(){
     $postStr = $GLOBALS["HTTP_RAW_POST_DATA"];
     $resultStr = "";
     if (!empty($postStr)){
@@ -64,26 +70,6 @@ function responseMsg()
         $resultStr = valid();
     }
     echo $resultStr;
-}
-
-function checkSignature()
-{
-    if (!defined("TOKEN")) {
-        throw new Exception('TOKEN is not defined!');
-    }
-    $signature = $_GET["signature"];
-    $timestamp = $_GET["timestamp"];
-    $nonce = $_GET["nonce"];
-    $token = TOKEN;
-    $tmpArr = array($token, $timestamp, $nonce);
-    sort($tmpArr, SORT_STRING);
-    $tmpStr = implode( $tmpArr );
-    $tmpStr = sha1( $tmpStr );
-    if( $tmpStr == $signature ){
-            return true;
-    }else{
-            return false;
-    }
 }
 
 ?>
