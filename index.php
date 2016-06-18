@@ -39,37 +39,33 @@ function responseMsg(){
     $resultStr = "";
     $valider = valid();
     if (!empty($postStr)){
-        if(!empty($valider)){
-            libxml_disable_entity_loader(true);
-            $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
-            $textTpl = "<xml>
-                    <ToUserName><![CDATA[%s]]></ToUserName>
-                    <FromUserName><![CDATA[%s]]></FromUserName>
-                    <CreateTime>%s</CreateTime>
-                    <MsgType><![CDATA[%s]]></MsgType>
-                    <Content><![CDATA[%s]]></Content>
-                    <FuncFlag>0</FuncFlag>
-                    </xml>";
-            $fromUsername = $postObj->FromUserName;
-            $toUsername = $postObj->ToUserName;
-            $type = $postObj->MsgType;
-            $time = time();
-            $msgType = "text";
-            if($type == "text"){
-                $contentStr = $postObj->Content;
-                $keyword = trim($contentStr);
-                if(!empty( $keyword )){
-                    $contentStr = trim(gate($contentStr,$fromUsername));
-                    if($contentStr=="") $resultStr="";
-                    else $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
-                }else{
-                    $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, "Input something...");
-                }
+        libxml_disable_entity_loader(true);
+        $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
+        $textTpl = "<xml>
+                <ToUserName><![CDATA[%s]]></ToUserName>
+                <FromUserName><![CDATA[%s]]></FromUserName>
+                <CreateTime>%s</CreateTime>
+                <MsgType><![CDATA[%s]]></MsgType>
+                <Content><![CDATA[%s]]></Content>
+                <FuncFlag>0</FuncFlag>
+                </xml>";
+        $fromUsername = $postObj->FromUserName;
+        $toUsername = $postObj->ToUserName;
+        $type = $postObj->MsgType;
+        $time = time();
+        $msgType = "text";
+        if($type == "text"){
+            $contentStr = $postObj->Content;
+            $keyword = trim($contentStr);
+            if(!empty( $keyword )){
+                $contentStr = trim(gate($contentStr,$fromUsername));
+                if($contentStr=="") $resultStr="";
+                else $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, $contentStr);
             }else{
-                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, "Only Text Available");
+                $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, "Input something...");
             }
         }else{
-            $resultStr = "";
+            $resultStr = sprintf($textTpl, $fromUsername, $toUsername, $time, $msgType, "Only Text Available");
         }
     }else{
         $resultStr = $valider;
