@@ -39,7 +39,7 @@ function responseMsg(){
     $resultStr = "";
     $valider = valid();
     if (!empty($postStr)){
-        if($valider!=""){
+        if(!empty($valider)){
             libxml_disable_entity_loader(true);
             $postObj = simplexml_load_string($postStr, 'SimpleXMLElement', LIBXML_NOCDATA);
             $textTpl = "<xml>
