@@ -1,8 +1,10 @@
 # 张小黑（微信公众号）
 
-![img](http://home.ustc.edu.cn/~zh970205/black_zhang/1.png)
+```
+docker pull zh19970205/black
+```
 
-![img](http://home.ustc.edu.cn/~zh970205/black_zhang/2.png)
+![img](https://raw.githubusercontent.com/zh19970205/black_zhang/master/1.png)
 
-![img](http://home.ustc.edu.cn/~zh970205/black_zhang/3.png)
+![img](https://raw.githubusercontent.com/zh19970205/black_zhang/master/2.png)
 
